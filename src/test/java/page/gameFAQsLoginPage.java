@@ -10,8 +10,8 @@ public class gameFAQsLoginPage {
     public NavigationHelper navigationHelper = new NavigationHelper();
 
     //Sign Up Locators
-    private By Email_Input_Name= By.name("EMAILADDR");
-    private By Password_Input_Name= By.name("PASSWORD");
+    private By Email_Input_Name = By.name("EMAILADDR");
+    private By Password_Input_Name = By.name("PASSWORD");
 
     //Sign In Locators
     private By Login_Button_Xpath= By.xpath("//*[@id=\"login_submit\"]");

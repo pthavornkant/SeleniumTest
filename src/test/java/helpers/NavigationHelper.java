@@ -16,7 +16,6 @@ public class NavigationHelper {
 
     //private Logger log = Logger.getLogger(NavigationHelper.class);
     public WebDriver getWebDriver() {
-
         return this.driver;
     }
 
@@ -48,6 +47,11 @@ public class NavigationHelper {
         //  log.debug("Looking for "+locator.toString());
         WebElement element = (new WebDriverWait(driver, 20)).until(ExpectedConditions.presenceOfElementLocated(locator));
         return element != null;
+    }
+
+    public String getCurrentURL(){
+        return driver.getCurrentUrl();
+
     }
 
     public void clickElementText(String text) {
