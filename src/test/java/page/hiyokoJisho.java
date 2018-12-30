@@ -32,7 +32,8 @@ public class hiyokoJisho {
     public boolean verifyText(String text){
         //Verify text exists on page.
         System.out.println("Now verifying: " + text);
-        return navigationHelper.isElementPresent(By.xpath("//*[contains(text(),'" + text + "')]"));
+        return navigationHelper.isElementPresent(By.xpath("//*[contains(text(),\"" + text + "\")]"));
+        //return navigationHelper.isElementPresent(By.xpath("//*[contains(text(),'Use the 'Build Word' button to create kanji compounds based on your search results.')]"));
     }
 
     public void clickLink(String linkText){
