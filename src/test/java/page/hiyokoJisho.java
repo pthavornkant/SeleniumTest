@@ -168,7 +168,7 @@ public class hiyokoJisho {
         if (language.equals("English")) {
             System.out.println("Verifying text: " + textToSearch);
             boolean textVerificationResult = navigationHelper.isElementPresent(By.xpath("//div[@class='sense-entry' and text()[contains(., '" + textToSearch + "')]]"));
-            System.out.println(textVerificationResult);
+            //System.out.println(textVerificationResult);
 
             return textVerificationResult;
         }
