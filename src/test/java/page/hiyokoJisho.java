@@ -15,9 +15,23 @@ public class hiyokoJisho {
      * private By hiyokoJishoGitHub = By.xpath("//*[@id=\"root\"]/div/div[7]/a[1]");
      * private By andrewTae = By.xpath("//*[@id=\"root\"]/div/div[7]/a[2]");
      * */
-    private By searchBoxLocator = By.xpath("//*[@id=\"root\"]/div/div[1]/form/input");
+    private By searchBoxLocator = By.xpath("//form[@class='search']//input");
+    private By bwSearchBoxLocator = By.xpath("//div[@class='builtWord']//input[@type='text']");
+
+    //Buttons
     private By baseSearchButton = By.xpath("//div[@class='formButtons']//button[@type='submit']");
     private By baseClearButton = By.xpath("//div[@class='formButtons']//button[@class='clear-search']");
+
+    private By heisigAdd = By.xpath("//*[@id=\"root\"]/div/div[5]/div[1]/div/div[1]/div/button[1]");
+    private By heisigAddNew = By.xpath("//*[@id=\"root\"]/div/div[5]/div[1]/div/div[1]/div/button[2]");
+    private By heisigSearch = By.xpath("//*[@id=\"root\"]/div/div[5]/div[1]/div/div[1]/div/button[3]");
+
+    private By jishoAdd = By.xpath("//*[@id=\"root\"]/div/div[5]/div[2]/div/div[1]/div[2]/button[1]");
+    private By jishoAddNew = By.xpath("//*[@id=\"root\"]/div/div[5]/div[2]/div/div[1]/div[2]/button[2]");
+
+    private By clearBuilt = By.xpath("//div[@class='buttons']//button[@type='button']");
+    private By searchBuilt = By.xpath("//div[@class='buttons']//button[@type='submit']");
+    //End Buttons
 
     //LOCATORS END
 
@@ -41,10 +55,18 @@ public class hiyokoJisho {
         //return navigationHelper.isElementPresent(By.xpath("//*[contains(text(),'Use the 'Build Word' button to create kanji compounds based on your search results.')]"));
     }
 
-    public String getSearchText(){
-        WebElement searchBox = navigationHelper.getWebDriver().findElement(searchBoxLocator);
-        String searchText = searchBox.getAttribute("value");
-        return searchText;
+    public String getSearchText(String sb_locator){
+        if (sb_locator.equals("search bar")) {
+            WebElement searchBox = navigationHelper.getWebDriver().findElement(searchBoxLocator);
+            String searchText = searchBox.getAttribute("value");
+            return searchText;
+        }
+        else if (sb_locator.equals("built word bar")){
+            WebElement searchBox = navigationHelper.getWebDriver().findElement(bwSearchBoxLocator);
+            String searchText = searchBox.getAttribute("value");
+            return searchText;
+        }
+        else return "faulty locator";
     }
 
     public void clickLink(String linkText){
@@ -85,6 +107,31 @@ public class hiyokoJisho {
         else if (button_text.equals("basic clear")){
             navigationHelper.clickElement(baseClearButton);
         }
+        else if (button_text.equals("Heisig Add to Built Word")){
+            navigationHelper.clickElement(heisigAdd);
+        }
+        else if (button_text.equals("Heisig Add to New Built Word")){
+            navigationHelper.clickElement(heisigAddNew);
+        }
+        else if (button_text.equals("Search Word")){
+            navigationHelper.clickElement(heisigSearch);
+        }
+        else if (button_text.equals("Jisho Add to Built Word")){
+            navigationHelper.clickElement(jishoAdd);
+        }
+        else if (button_text.equals("Jisho Add to New Built Word")){
+            navigationHelper.clickElement(jishoAddNew);
+        }
+        else if (button_text.equals("Clear")){
+            navigationHelper.clickElement(baseClearButton);
+        }
+        else if (button_text.equals("Clear Built Word")){
+            navigationHelper.clickElement(clearBuilt);
+        }
+        else if (button_text.equals("Search Built Word")){
+            navigationHelper.clickElement(searchBuilt);
+        }
+
 
         //Sleep so that I can see the results of clicking the button properly.
         try {
@@ -131,6 +178,52 @@ public class hiyokoJisho {
             System.out.println(textVerificationResult);
 
             return textVerificationResult;
+        }
+        else return false;
+    }
+
+    public boolean verifyEmptySearchResults() {
+        //Verify that the Heisig Search Results container and Jisho Search Results containers are not present.
+        //These locators should not exist on the page if you press the clear button.
+        if (navigationHelper.getWebDriver().findElements(By.xpath("//div[@class='container animated fadeIn']//div[@class='heisig']")).size() < 1 &&
+                navigationHelper.getWebDriver().findElements(By.xpath("//div[@class='container animated fadeIn']//h3[@class='jisho']")).size() < 1){
+            return true;
+        }
+        else return false;
+    }
+
+    public void clearSearchBarText() {
+        navigationHelper.getWebDriver().findElement(searchBoxLocator).clear();
+    }
+
+    public boolean verifyBuiltWordSearchBarContains(String addedKanji) {
+        String bwBoxText = navigationHelper.getWebDriver().findElement(bwSearchBoxLocator).getText();
+        if (bwBoxText.contains(addedKanji)) {
+            return true;
+        }
+        else return false;
+    }
+
+    public boolean verifyBuiltWordSearchBarDisplays(String single_or_compound_kanji) {
+        String bwBoxText = navigationHelper.getWebDriver().findElement(bwSearchBoxLocator).getText();
+        if (bwBoxText.equals(single_or_compound_kanji)) {
+            return true;
+        }
+        else return false;
+    }
+
+    public boolean buttonIsAbsent(String button_locator) {
+        if (button_locator.equals("Search Built Word")){
+            if (navigationHelper.getWebDriver().findElements(clearBuilt).size() < 1){
+                return true;
+            }
+            else return false;
+        }
+        else if (button_locator.equals("Clear Words")){
+            if (navigationHelper.getWebDriver().findElements(searchBuilt).size() < 1){
+                return true;
+            }
+            else return false;
         }
         else return false;
     }

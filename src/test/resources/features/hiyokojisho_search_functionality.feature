@@ -8,7 +8,7 @@ Feature: Test suite for HiyokoJisho.
   #Tests relating to external link verification.
   Background:
     Given I am on the home page of "http://www.hiyokojisho.com"
-    And The search bar is currently empty
+    And The "search bar" is currently empty
 
   Scenario: Empty Search result returns no results.
     Then I click on the "basic search" button
