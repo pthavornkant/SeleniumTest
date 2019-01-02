@@ -57,7 +57,6 @@ public class gameFAQsLogInSteps {
 
     @Then("^click login$")
     public void clickLogin() {
-
         gameFAQsLoginPage.clicklogin();
         System.out.println( "Login clicked." );
     }

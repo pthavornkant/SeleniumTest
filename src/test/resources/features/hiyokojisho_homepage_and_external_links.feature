@@ -2,7 +2,7 @@
 # Continued comment area. May continue to modify this section later.
 
 Feature: Test suite for HiyokoJisho.
-  Run through basic regression tests on HiyokoJisho.
+  Verify text & external links on HiyokoJisho.
 
   #Tests relating to external link verification.
   Background:
@@ -18,14 +18,12 @@ Feature: Test suite for HiyokoJisho.
     And I should see "This site uses some heisig json and the Official Unofficial Jisho.org API"
     And I should see "Issues? New Feature Ideas?"
 
-  Scenario: Verify that clicking on "Support/Issues" takes the user to the issue report page for Andrew Tae's github.
-    When I click on "Support/Issues"
-    Then I am on the page "https://github.com/atae/jisho-word-builder/issues"
+  Scenario Outline: Verify that clicking on each external link takes me to the expected external link.
+    When I click on "<linktext>"
+    Then I am on the page "<URL>"
 
-  Scenario: Verify that clicking on "HiyokoJisho Github" takes me to the Jisho Word Builder git page.
-    When I click on "Hiyoko Jisho Github"
-    Then I am on the page "https://github.com/atae/jisho-word-builder"
-
-  Scenario: Verify that clicking on "Andrew Tae" takes me to the github page of the creator.
-    When I click on "Andrew Tae"
-    Then I am on the page "https://github.com/atae/"
+    Examples:
+      | linktext             |           URL                                     |
+      | Support/Issues       | https://github.com/atae/jisho-word-builder/issues |
+      | Hiyoko Jisho Github  | https://github.com/atae/jisho-word-builder        |
+      | Andrew Tae           | https://github.com/atae/                          |

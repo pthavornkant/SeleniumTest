@@ -21,6 +21,7 @@ public class gameFAQsLoginPage {
     }
 
     public void clicklogin(){
+
         navigationHelper.clickElement(Login_Button_Xpath);
     }
 

@@ -40,35 +40,24 @@ public class hiyokoJishoSteps {
     @Given("^I am on the home page of \"([^\"]*)\"$")
     public void iAmOnTheHomePageOfHiyokoJisho(String url) {
         hiyokoJishoWebpage.goTo(url);
-        System.out.println( "Navigated to http://www.hiyokojisho.com" );
     }
 
     @Then("^I should see that the title says \"([^\"]*)\"$")
     public void iShouldSeeThatTheTitleSays(String pageTitle) {
         WebDriver driver = hiyokoJishoWebpage.navigationHelper.getWebDriver();
-        System.out.println( "Title says " + driver.getTitle() );
-        assert driver.getTitle().toLowerCase().contains(pageTitle);
+        boolean title_matches = driver.getTitle().toLowerCase().contains(pageTitle);
+        assert title_matches;
     }
 
     @And("^I should see \"([^\"]*)\"$")
     public void iShouldSee(String pageText) {
-        System.out.println("Text to verify is " + pageText);
-        /*try {
-            assert hiyokoJishoWebpage.verifyText(pageText);
-            System.out.println("Result is " + hiyokoJishoWebpage.verifyText(pageText));
-        } catch (Exception e) {
-            System.out.println("The text: " + pageText + "... is not present on the page.");
-            System.out.println("Result is " + hiyokoJishoWebpage.verifyText(pageText));
-        }*/
-        System.out.println("Result is " + hiyokoJishoWebpage.verifyText(pageText));
-        assert hiyokoJishoWebpage.verifyText(pageText);
+        boolean text_is_visible = hiyokoJishoWebpage.verifyText(pageText);
+        assert text_is_visible;
     }
 
     @When("^I click on \"([^\"]*)\"$")
     public void iClickOn(String linkText) {
-        String currentUrl = hiyokoJishoWebpage.navigationHelper.getCurrentURL();
-        System.out.print("Click Link Step - Current URL before clicking is: " + currentUrl);
-
+        //CLICKS ON TEXT LINK THAT OPENS NEW TAB, THEN GOES TO THAT NEW TAB.
         //Storing current window's handle
         String strFirstWindowHandle = hiyokoJishoWebpage.navigationHelper.getWebDriver().getWindowHandle();
 
@@ -89,8 +78,6 @@ public class hiyokoJishoSteps {
             if(!strWindowHandle.equals(strFirstWindowHandle)){
                 //Switch to the new window
                 hiyokoJishoWebpage.navigationHelper.getWebDriver().switchTo().window(strWindowHandle);
-                //Print window title
-                System.out.println(hiyokoJishoWebpage.navigationHelper.getWebDriver().getTitle());
                 //Exit from loop
                 break;
             }
@@ -99,12 +86,43 @@ public class hiyokoJishoSteps {
 
     @Then("^I am on the page \"([^\"]*)\"$")
     public void iAmOnThePage(String targetURL) {
-        //System.out.println("Target URL is " + targetURL);
         hiyokoJishoWebpage.navigationHelper.getWebDriver().findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, "w"));
         String currentUrl = hiyokoJishoWebpage.navigationHelper.getCurrentURL();
-        //System.out.println("Current URL is " + currentUrl);
-        //System.out.println("Test result is: " + currentUrl.equals(targetURL));
+        boolean now_on_target_page = currentUrl.equals(targetURL);
+        assert now_on_target_page;
+    }
 
-        assert currentUrl.equals(targetURL);
+    @And("^The search bar is currently empty$")
+    public void theSearchBarIsCurrentlyEmpty() {
+        String currentSearchBarText = hiyokoJishoWebpage.getSearchText();
+        boolean emptybar = currentSearchBarText.isEmpty();
+        assert emptybar;
+    }
+
+    @Then("^I click on the \"([^\"]*)\" button$")
+    public void iClickOnTheButton(String buttonText) {
+        hiyokoJishoWebpage.clickButton(buttonText);
+    }
+
+    @Then("^I should see \"([^\"]*)\" displayed in search results$")
+    public void iShouldSeeDisplayedInSearchResults(String expectedSearchResults)  {
+        assert hiyokoJishoWebpage.verifyNoSearchResults(expectedSearchResults);
+    }
+
+    @When("^I enter \"([^\"]*)\" into the search bar$")
+    public void iEnterIntoTheSearchBar(String textToSearch){
+        hiyokoJishoWebpage.enterSearchText(textToSearch);
+    }
+
+    @Then("^I should see Heisig Results for the \"([^\"]*)\" phrase: \"([^\"]*)\"$")
+    public void iShouldSeeHeisigResultsFor(String language, String textToSearch) {
+        boolean heisigResult = (hiyokoJishoWebpage.verifyHeisigSearchResults(language, textToSearch));
+        assert heisigResult;
+    }
+
+    @And("^I should see Jisho Results for the \"([^\"]*)\" phrase: \"([^\"]*)\"$")
+    public void iShouldSeeJishoResultsForTheEnglishPhrase(String language, String textToSearch) {
+        boolean jishoResult = (hiyokoJishoWebpage.verifyJishoSearchResults(language, textToSearch));
+        assert jishoResult;
     }
 }
