@@ -1,5 +1,6 @@
 Feature: Logging into GameFAQs as a Test
 
+    @gfaqs
     Scenario Outline: I want to log into GameFAQs and verify my userID.
         Given I navigated to "https://gamefaqs.gamespot.com/user/login"
         Then fill in "Username/Email" as "<Username/Email>"

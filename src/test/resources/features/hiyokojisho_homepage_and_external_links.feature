@@ -6,11 +6,11 @@ Feature: Verify text & external links on HiyokoJisho
   Background:
     Given I am on the home page of "http://www.hiyokojisho.com"
 
-  @hiyoko @noJP
+  @hiyoko @noJP @smoke @regression
   Scenario: Verify that the title displays correctly.
     Then I should see that the title says "HiyokoJisho"
 
-  @hiyoko @noJP
+  @hiyoko @noJP @smoke @regression
   Scenario: Verify that all page text displays properly.
     And I should see "Intermediate Japanese Word Builder Dictionary"
     And I should see "Enter any Kanji, Heisig Keyword, or English/Japanese sentences in the box above."
@@ -18,7 +18,7 @@ Feature: Verify text & external links on HiyokoJisho
     And I should see "This site uses some heisig json and the Official Unofficial Jisho.org API"
     And I should see "Issues? New Feature Ideas?"
 
-  @hiyoko @noJP
+  @hiyoko @noJP @smoke @regression
   Scenario Outline: Verify that clicking on each external link takes me to the expected external link.
     When I click on "<linktext>"
     Then I am on the external page "<URL>"
