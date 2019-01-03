@@ -15,12 +15,12 @@ Feature: Test suite for HiyokoJisho.
     Then I should see "No results!" displayed in search results
 
   Scenario: Non-existant word returns no results.
-    When I enter "afds" into the search bar
+    When I enter "afds" into the "search bar"
     Then I click on the "basic search" button
     Then I should see "No Results" displayed in search results
 
   Scenario Outline: Searching for English words returns results.
-    When I enter "<text>" into the search bar
+    When I enter "<text>" into the "search bar"
     Then I click on the "basic search" button
     Then I should see Heisig Results for the "<language>" phrase: "<text>"
     And I should see Jisho Results for the "<language>" phrase: "<text>"

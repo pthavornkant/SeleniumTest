@@ -31,6 +31,11 @@ public class hiyokoJisho {
 
     private By clearBuilt = By.xpath("//div[@class='buttons']//button[@type='button']");
     private By searchBuilt = By.xpath("//div[@class='buttons']//button[@type='submit']");
+
+    private By historyButton = By.xpath("//button[@class='animated fadeIn ']");
+    private By expHistoryButton = By.xpath("//button[@class='animated fadeIn expanded']");
+    private By historyList = By.xpath("//div[@class='history-widget fadeInRight']");
+    private By clearHistoryButton = By.xpath("//div[@class='history-item history-item-button']//p[text()[contains(., 'Clear History')]]");
     //End Buttons
 
     //LOCATORS END
@@ -131,6 +136,15 @@ public class hiyokoJisho {
         else if (button_text.equals("Search Built Word")){
             navigationHelper.clickElement(searchBuilt);
         }
+        else if (button_text.equals("History")){
+            navigationHelper.clickElement(historyButton);
+        }
+        else if (button_text.equals("expanded History")) {
+            navigationHelper.clickElement(expHistoryButton);
+        }
+        else if (button_text.equals("Clear History")){
+            navigationHelper.clickElement(clearHistoryButton);
+        }
 
 
         //Sleep so that I can see the results of clicking the button properly.
@@ -141,8 +155,14 @@ public class hiyokoJisho {
         }
     }
 
-    public void enterSearchText(String textToSearch) {
-        navigationHelper.input(searchBoxLocator, textToSearch);
+    public void enterSearchText(String textToSearch, String searchBarLocator) {
+        if (searchBarLocator.equals("search bar")){
+            navigationHelper.input(searchBoxLocator, textToSearch);
+        }
+        else if (searchBarLocator.equals("built word search bar")){
+            navigationHelper.input(bwSearchBoxLocator, textToSearch);
+        }
+
     }
 
     public boolean verifyHeisigSearchResults(String language, String textToSearch) {
@@ -226,5 +246,56 @@ public class hiyokoJisho {
             else return false;
         }
         else return false;
+    }
+
+    public boolean checkHistoryExpansion(String expanded) {
+        boolean expansion = false;
+        if (expanded.equals("should not"))
+        {
+            if (navigationHelper.getWebDriver().findElements(historyList).size() < 1){
+                expansion = true; //Actually means not expanded, but labeling as true for coding purposes.
+            }
+        }
+        else if (expanded.equals("should")){
+            if (navigationHelper.getWebDriver().findElements(historyList).size() > 0){
+                expansion = true; //Means we have expanded history list.
+            }
+        }
+        return expansion;
+    }
+
+    public boolean verifyHistoryContains(String historic_result) {
+        boolean result_exists = false;
+        if (historic_result.equals("No Results")){
+            if (navigationHelper.getWebDriver().findElements(By.xpath("//div[@class='history-item' and contains(text(), ' No Results')]")).size() > 0){
+                result_exists = true;
+            }
+            else {
+                System.out.print(navigationHelper.getWebDriver().findElement(By.xpath("//div[@class='history-item' and contains(text(), ' No Results')]")));
+            }
+        }
+        else { //we are looking for an actual result
+            if (navigationHelper.getWebDriver().findElements(By.xpath("//div[@class='history-item history-item-button']//p[text()[contains(., '" + historic_result + "')]]")).size() > 0){
+                result_exists = true;
+            }
+            else {
+                System.out.print(navigationHelper.getWebDriver().findElement(By.xpath("//div[@class='history-item history-item-button']//p[text()[contains(., '" + historic_result + "')]]")));
+            }
+        }
+
+
+
+
+        return result_exists;
+    }
+
+    public void clickHistoryResult(String historic_result) {
+        navigationHelper.getWebDriver().findElement(By.xpath("//div[@class='history-item history-item-button']//p[text()[contains(., '" + historic_result + "')]]")).click();
+        //Sleep so that I can see the results of clicking the button properly.
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

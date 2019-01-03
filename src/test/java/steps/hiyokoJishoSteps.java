@@ -6,11 +6,9 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import page.hiyokoJisho;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
@@ -109,9 +107,9 @@ public class hiyokoJishoSteps {
         assert hiyokoJishoWebpage.verifyNoSearchResults(expectedSearchResults);
     }
 
-    @When("^I enter \"([^\"]*)\" into the search bar$")
-    public void iEnterIntoTheSearchBar(String textToSearch){
-        hiyokoJishoWebpage.enterSearchText(textToSearch);
+    @When("^I enter \"([^\"]*)\" into the \"([^\"]*)\"$")
+    public void iEnterIntoTheSearchBar(String textToSearch, String searchBarLocator){
+        hiyokoJishoWebpage.enterSearchText(textToSearch, searchBarLocator);
     }
 
     @Then("^I should see Heisig Results for the \"([^\"]*)\" phrase: \"([^\"]*)\"$")
@@ -129,7 +127,7 @@ public class hiyokoJishoSteps {
     @Given("^I have performed a successful search using the phrase \"([^\"]*)\"$")
     public void iHavePerformedASuccessfulSearchUsingThePhrase(String textToSearch) {
         hiyokoJishoWebpage.goTo("http://www.hiyokojisho.com");
-        hiyokoJishoWebpage.enterSearchText(textToSearch);
+        hiyokoJishoWebpage.enterSearchText(textToSearch, "search bar");
         hiyokoJishoWebpage.clickButton("basic search");
         boolean heisigResult = (hiyokoJishoWebpage.verifyHeisigSearchResults("English", textToSearch));
         boolean jishoResult = (hiyokoJishoWebpage.verifyJishoSearchResults("English", textToSearch));
@@ -164,5 +162,25 @@ public class hiyokoJishoSteps {
     public void theButtonShouldNotAppear(String button_locator) {
         boolean buttonsAbsent = hiyokoJishoWebpage.buttonIsAbsent(button_locator);
         assert buttonsAbsent;
+    }
+
+    @Then("^The history widget \"([^\"]*)\" be expanded$")
+    public void theHistoryWidgetBeExpanded(String expanded) {
+        boolean isExpanded = hiyokoJishoWebpage.checkHistoryExpansion(expanded);
+
+        assert isExpanded;
+    }
+
+    @And("^I should see \"([^\"]*)\" displayed in history$")
+    public void iShouldSeeDisplayedInHistory(String historic_result)  {
+        boolean result_found = hiyokoJishoWebpage.verifyHistoryContains(historic_result);
+
+        assert result_found;
+
+    }
+
+    @Then("^I click on the result stored in history, \"([^\"]*)\"$")
+    public void iClickOnTheResultStoredInHistory(String historic_result)  {
+        hiyokoJishoWebpage.clickHistoryResult(historic_result);
     }
 }

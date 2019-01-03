@@ -12,7 +12,7 @@ Feature: Test suite for HiyokoJisho.
     When I click on the "Heisig Add to Built Word" button
     Then "暗" should be added to the built word search bar
     Then I clear the search bar
-    Then I enter "water" into the search bar
+    Then I enter "water" into the "search bar"
     Then I click on the "basic search" button
     Then I click on the "Heisig Add to Built Word" button
     Then "水" should be added to the built word search bar
@@ -22,7 +22,7 @@ Feature: Test suite for HiyokoJisho.
     Then I click on the "Heisig Add to New Built Word" button
     Then "暗" should be added to the built word search bar
     Then I clear the search bar
-    Then I enter "water" into the search bar
+    Then I enter "water" into the "search bar"
     Then I click on the "basic search" button
     Then I click on the "Heisig Add to New Built Word" button
     Then The built word search bar should display "水"
@@ -36,7 +36,7 @@ Feature: Test suite for HiyokoJisho.
     Then I click on the "Jisho Add to Built Word" button
     Then "闇" should be added to the built word search bar
     Then I clear the search bar
-    Then I enter "water" into the search bar
+    Then I enter "water" into the "search bar"
     Then I click on the "basic search" button
     Then I click on the "Jisho Add to Built Word" button
     Then "水" should be added to the built word search bar
@@ -46,7 +46,7 @@ Feature: Test suite for HiyokoJisho.
     Then I click on the "Jisho Add to New Built Word" button
     Then "闇" should be added to the built word search bar
     Then I clear the search bar
-    Then I enter "water" into the search bar
+    Then I enter "water" into the "search bar"
     Then I click on the "basic search" button
     Then I click on the "Jisho Add to New Built Word" button
     Then "水" should be added to the built word search bar
@@ -62,3 +62,10 @@ Feature: Test suite for HiyokoJisho.
     Then The "built word bar" is currently empty
     And The "Search Built Word" button should not appear
     And The "Clear Words" button should not appear
+
+  Scenario: Verify that a built word search works properly.
+    When I enter "戦闘" into the "built word search bar"
+    Then I click on the "Search Built Word" button
+    Then I should see Heisig Results for the "Japanese" phrase: "戦"
+    Then I should see Heisig Results for the "Japanese" phrase: "闘"
+    And I should see Jisho Results for the "Japanese" phrase: "戦闘"
