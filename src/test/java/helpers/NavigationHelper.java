@@ -23,6 +23,7 @@ public class NavigationHelper {
     public WebDriver getWebDriver() {
         return this.driver;
     }
+    public Logger getLogDevice() {return this.logger;}
 
     public NavigationHelper() {
         System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/geckodriver.exe");

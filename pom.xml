@@ -85,7 +85,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.20.1</version>
+                    <version>3.0.0-M3</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -101,7 +101,7 @@
                 </plugin>
                 <plugin>
                         <groupId>net.masterthought</groupId>
-                        <artifactId>cucumber-reporting</artifactId>
+                        <artifactId>maven-cucumber-reporting</artifactId>
                         <version>4.3.0</version>
                         <executions>
                             <execution>

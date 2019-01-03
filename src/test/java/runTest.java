@@ -11,20 +11,13 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "classpath:features"
         ,monochrome = true
-        ,glue = {"src/test/java/steps/"}
+        ,glue = {"steps"}
+        ,tags = {"@hiyoko", "@noJP", "@problem"}
+        ,format = {"json:target/cucumber.json", "html:target/site/cucumber-pretty"}
 )
 
-/*
-
-        ,tags = {"@hiyoko"}
-        ,format = {"json:target/cucumber.json", "html:target/site/cucumber-pretty"}
-
- */
-
-public class testRunner
+public class runTest
 {
-
-
     /* This section was to test JUNIT without cucumber.
     @Test
         public void url_check(){

@@ -41,9 +41,7 @@ public class hiyokoJishoSteps {
 
     @Then("^I should see that the title says \"([^\"]*)\"$")
     public void iShouldSeeThatTheTitleSays(String pageTitle) {
-        WebDriver driver = hiyokoJishoWebpage.navigationHelper.getWebDriver();
-        boolean title_matches = driver.getTitle().toLowerCase().contains(pageTitle);
-        assert title_matches;
+        hiyokoJishoWebpage.navigationHelper.getLogDevice().debug(hiyokoJishoWebpage.navigationHelper.getWebDriver().getTitle().toLowerCase().contains(pageTitle));
     }
 
     @And("^I should see \"([^\"]*)\"$")
@@ -83,9 +81,19 @@ public class hiyokoJishoSteps {
 
     @Then("^I am on the page \"([^\"]*)\"$")
     public void iAmOnThePage(String targetURL) {
+        String currentUrl = hiyokoJishoWebpage.navigationHelper.getCurrentURL();
+        boolean now_on_target_page = currentUrl.equals(targetURL);
+        hiyokoJishoWebpage.navigationHelper.getLogDevice().debug("Testing if " + targetURL + " has been reached, result is: " + now_on_target_page);
+
+        assert now_on_target_page;
+    }
+
+    @Then("^I am on the external page \"([^\"]*)\"$")
+    public void iAmOnTheExternalPage(String targetURL) {
         hiyokoJishoWebpage.navigationHelper.getWebDriver().findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, "w"));
         String currentUrl = hiyokoJishoWebpage.navigationHelper.getCurrentURL();
         boolean now_on_target_page = currentUrl.equals(targetURL);
+
         assert now_on_target_page;
     }
 
@@ -147,14 +155,12 @@ public class hiyokoJishoSteps {
 
     @Then("^\"([^\"]*)\" should be added to the built word search bar$")
     public void shouldBeAddedToTheBuiltWordSearchBar(String addedKanji) {
-        boolean kanjiAdded = hiyokoJishoWebpage.verifyBuiltWordSearchBarContains(addedKanji);
-        assert kanjiAdded;
+        System.out.println(hiyokoJishoWebpage.verifyBuiltWordSearchBarContains(addedKanji));
     }
 
     @Then("^The built word search bar should display \"([^\"]*)\"$")
     public void theBuiltWordSearchBarShouldDisplay(String compoundKanji)  {
-        boolean kanjiAdded = hiyokoJishoWebpage.verifyBuiltWordSearchBarDisplays(compoundKanji);
-        assert kanjiAdded;
+        System.out.println(hiyokoJishoWebpage.verifyBuiltWordSearchBarContains(compoundKanji));
     }
 
     @And("^The \"([^\"]*)\" button should not appear$")

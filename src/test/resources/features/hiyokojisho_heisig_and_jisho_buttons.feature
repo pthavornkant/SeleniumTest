@@ -1,13 +1,13 @@
 # Comment area. Writing this here for practice purposes.
 # Continued comment area. May continue to modify this section later.
 
-Feature: Verify tests relating to the word builder.
+Feature: Heisig and Jisho Buttons and Word Builder
 
   Background:
     Given I have performed a successful search using the phrase "darkness"
 
-  @hiyoko
-  Scenario: Verify Heisig button: Add to built word.
+  @hiyoko @yesJP
+  Scenario: Verify Heisig Add to built word button
     When I click on the "Heisig Add to Built Word" button
     Then "暗" should be added to the built word search bar
     Then I clear the search bar
@@ -17,8 +17,8 @@ Feature: Verify tests relating to the word builder.
     Then "水" should be added to the built word search bar
     Then The built word search bar should display "暗水"
 
-  @hiyoko
-  Scenario: Verify Heisig button: Add to built NEW word.
+  @hiyoko @yesJP
+  Scenario: Verify Heisig Add to built NEW word button
     Then I click on the "Heisig Add to New Built Word" button
     Then "暗" should be added to the built word search bar
     Then I clear the search bar
@@ -27,14 +27,14 @@ Feature: Verify tests relating to the word builder.
     Then I click on the "Heisig Add to New Built Word" button
     Then The built word search bar should display "水"
 
-  @hiyoko
-  Scenario: Verify Heisig button: Search.
+  @hiyoko @yesJP
+  Scenario: Verify that the Heisig search button works
     Then I click on the "Search Word" button
     Then I should see Heisig Results for the "Japanese" phrase: "暗"
     And I should see Jisho Results for the "Japanese" phrase: "暗"
 
-  @hiyoko
-  Scenario: Verify Jisho button: Add to built word.
+  @hiyoko @yesJP
+  Scenario: Verify Jisho button: Add to built word
     Then I click on the "Jisho Add to Built Word" button
     Then "闇" should be added to the built word search bar
     Then I clear the search bar
@@ -44,8 +44,8 @@ Feature: Verify tests relating to the word builder.
     Then "水" should be added to the built word search bar
     Then The built word search bar should display "闇水"
 
-  @hiyoko
-  Scenario: Verify Jisho button: Add to built NEW word.
+  @hiyoko @yesJP
+  Scenario: Verify Jisho button: Add to built NEW word
     Then I click on the "Jisho Add to New Built Word" button
     Then "闇" should be added to the built word search bar
     Then I clear the search bar
@@ -55,12 +55,12 @@ Feature: Verify tests relating to the word builder.
     Then "水" should be added to the built word search bar
     Then The built word search bar should display "水"
 
-  @hiyoko
+  @hiyoko @noJP
   Scenario: Verify that the Clear button erases results.
     When I click on the "Clear" button
     Then There should be no search results on the page
 
-  @hiyoko
+  @hiyoko @noJP
   Scenario: Verify that the Clear button erases results for built words.
     When I click on the "Heisig Add to Built Word" button
     Then I click on the "Clear Built Word" button
@@ -68,8 +68,8 @@ Feature: Verify tests relating to the word builder.
     And The "Search Built Word" button should not appear
     And The "Clear Words" button should not appear
 
-  @hiyoko
-  Scenario: Verify that a built word search works properly.
+  @hiyoko @yesJP
+  Scenario: Verify that a built word search works properly
     When I enter "戦闘" into the "built word search bar"
     Then I click on the "Search Built Word" button
     Then I should see Heisig Results for the "Japanese" phrase: "戦"

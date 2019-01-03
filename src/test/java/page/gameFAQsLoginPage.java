@@ -32,7 +32,7 @@ public class gameFAQsLoginPage {
         //reformat field to lowercase
         field=field.toLowerCase().trim();
 
-        if(field.equals("email"))
+        if(field.equals("username/email"))
         {
             navigationHelper.input(Email_Input_Name,input);
         }
