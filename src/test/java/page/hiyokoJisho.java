@@ -274,6 +274,14 @@ public class hiyokoJisho {
                 System.out.print(navigationHelper.getWebDriver().findElement(By.xpath("//div[@class='history-item' and contains(text(), ' No Results')]")));
             }
         }
+        else if (historic_result.equals("Your Search History")){
+            if (navigationHelper.getWebDriver().findElements(By.xpath("//div[@class='history-item history-item-header']//p//strong[text()[contains(., '" + historic_result + "')]]")).size() > 0){
+                result_exists = true;
+            }
+            else {
+                System.out.print(navigationHelper.getWebDriver().findElement(By.xpath("//div[@class='history-item' and contains(text(), ' No Results')]")));
+            }
+        }
         else { //we are looking for an actual result
             if (navigationHelper.getWebDriver().findElements(By.xpath("//div[@class='history-item history-item-button']//p[text()[contains(., '" + historic_result + "')]]")).size() > 0){
                 result_exists = true;

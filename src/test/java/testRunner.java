@@ -7,19 +7,21 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
-/**
- * Unit test for simple App.
- */
-
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "classpath:features/"
-        ,glue = "test/java/steps"
-        ,tags = "@test"
-        ,format = "pretty"
+        features = "classpath:features"
+        ,monochrome = true
+        ,glue = {"src/test/java/steps/"}
 )
 
-public class AppTest 
+/*
+
+        ,tags = {"@hiyoko"}
+        ,format = {"json:target/cucumber.json", "html:target/site/cucumber-pretty"}
+
+ */
+
+public class testRunner
 {
 
 

@@ -23,7 +23,6 @@ public class hiyokoJishoSteps {
 
     @Before
     public void testStartUp() {
-
         hiyokoJishoWebpage = new hiyokoJisho();
     }
 
