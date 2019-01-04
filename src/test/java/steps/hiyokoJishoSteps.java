@@ -1,6 +1,5 @@
 package steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -39,6 +38,17 @@ public class hiyokoJishoSteps {
         hiyokoJishoWebpage.goTo(url);
     }
 
+    @Given("^I have performed a successful search using the phrase \"([^\"]*)\"$")
+    public void iHavePerformedASuccessfulSearchUsingThePhrase(String textToSearch) {
+        hiyokoJishoWebpage.goTo("http://www.hiyokojisho.com");
+        hiyokoJishoWebpage.enterSearchText(textToSearch, "search bar");
+        hiyokoJishoWebpage.clickHiyokoJishoButton(" Search");
+        boolean heisigResult = (hiyokoJishoWebpage.verifyHeisigSearchResults("English", textToSearch));
+        boolean jishoResult = (hiyokoJishoWebpage.verifyJishoSearchResults("English", textToSearch));
+        assert heisigResult;
+        assert jishoResult;
+    }
+
     @Then("^I should see that the title says \"([^\"]*)\"$")
     public void iShouldSeeThatTheTitleSays(String pageTitle) {
         hiyokoJishoWebpage.navigationHelper.getLogDevice().debug(hiyokoJishoWebpage.navigationHelper.getWebDriver().getTitle().toLowerCase().contains(pageTitle));
@@ -56,7 +66,7 @@ public class hiyokoJishoSteps {
         //Storing current window's handle
         String strFirstWindowHandle = hiyokoJishoWebpage.navigationHelper.getWebDriver().getWindowHandle();
 
-        hiyokoJishoWebpage.clickLink(linkText);
+        hiyokoJishoWebpage.clickHiyokoJishoExternalLink(linkText);
 
         //Wait for page to load.
         try {
@@ -106,7 +116,7 @@ public class hiyokoJishoSteps {
 
     @Then("^I click on the \"([^\"]*)\" button$")
     public void iClickOnTheButton(String buttonText) {
-        hiyokoJishoWebpage.clickButton(buttonText);
+        hiyokoJishoWebpage.clickHiyokoJishoButton(buttonText);
     }
 
     @Then("^I should see \"([^\"]*)\" displayed in search results$")
@@ -131,17 +141,6 @@ public class hiyokoJishoSteps {
         assert jishoResult;
     }
 
-    @Given("^I have performed a successful search using the phrase \"([^\"]*)\"$")
-    public void iHavePerformedASuccessfulSearchUsingThePhrase(String textToSearch) {
-        hiyokoJishoWebpage.goTo("http://www.hiyokojisho.com");
-        hiyokoJishoWebpage.enterSearchText(textToSearch, "search bar");
-        hiyokoJishoWebpage.clickButton("basic search");
-        boolean heisigResult = (hiyokoJishoWebpage.verifyHeisigSearchResults("English", textToSearch));
-        boolean jishoResult = (hiyokoJishoWebpage.verifyJishoSearchResults("English", textToSearch));
-        assert heisigResult;
-        assert jishoResult;
-    }
-
     @Then("^There should be no search results on the page$")
     public void thereShouldBeNoSearchResultsOnThePage() {
         boolean noResults = hiyokoJishoWebpage.verifyEmptySearchResults();
@@ -155,17 +154,19 @@ public class hiyokoJishoSteps {
 
     @Then("^\"([^\"]*)\" should be added to the built word search bar$")
     public void shouldBeAddedToTheBuiltWordSearchBar(String addedKanji) {
+        //We just want to see kanji added to the bar properly, in any order, without regards to prior/future searches.
         System.out.println(hiyokoJishoWebpage.verifyBuiltWordSearchBarContains(addedKanji));
     }
 
     @Then("^The built word search bar should display \"([^\"]*)\"$")
     public void theBuiltWordSearchBarShouldDisplay(String compoundKanji)  {
-        System.out.println(hiyokoJishoWebpage.verifyBuiltWordSearchBarContains(compoundKanji));
+        //We want an exact match to verify a specific combination of kanji.
+        System.out.println(hiyokoJishoWebpage.verifyBuiltWordSearchBarDisplays(compoundKanji));
     }
 
     @And("^The \"([^\"]*)\" button should not appear$")
     public void theButtonShouldNotAppear(String button_locator) {
-        boolean buttonsAbsent = hiyokoJishoWebpage.buttonIsAbsent(button_locator);
+        boolean buttonsAbsent = hiyokoJishoWebpage.builtWordButtonIsAbsent(button_locator);
         assert buttonsAbsent;
     }
 

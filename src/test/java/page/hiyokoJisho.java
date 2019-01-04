@@ -19,9 +19,6 @@ public class hiyokoJisho {
     private By bwSearchBoxLocator = By.xpath("//div[@class='builtWord']//input[@type='text']");
 
     //Buttons
-    private By baseSearchButton = By.xpath("//div[@class='formButtons']//button[@type='submit']");
-    private By baseClearButton = By.xpath("//div[@class='formButtons']//button[@class='clear-search']");
-
     private By heisigAdd = By.xpath("//*[@id=\"root\"]/div/div[5]/div[1]/div/div[1]/div/button[1]");
     private By heisigAddNew = By.xpath("//*[@id=\"root\"]/div/div[5]/div[1]/div/div[1]/div/button[2]");
     private By heisigSearch = By.xpath("//*[@id=\"root\"]/div/div[5]/div[1]/div/div[1]/div/button[3]");
@@ -32,8 +29,6 @@ public class hiyokoJisho {
     private By clearBuilt = By.xpath("//div[@class='buttons']//button[@type='button']");
     private By searchBuilt = By.xpath("//div[@class='buttons']//button[@type='submit']");
 
-    private By historyButton = By.xpath("//button[@class='animated fadeIn ']");
-    private By expHistoryButton = By.xpath("//button[@class='animated fadeIn expanded']");
     private By historyList = By.xpath("//div[@class='history-widget fadeInRight']");
     private By clearHistoryButton = By.xpath("//div[@class='history-item history-item-button']//p[text()[contains(., 'Clear History')]]");
     //End Buttons
@@ -74,45 +69,22 @@ public class hiyokoJisho {
         else return "faulty locator";
     }
 
-    public void clickLink(String linkText){
+    public void clickHiyokoJishoExternalLink(String linkText){
         //CLICK ON THE LINK THAT MATCHES THE TEXT OF THE LINK
-        if (linkText.equals("Support/Issues")){
-            navigationHelper.clickElement(support_and_issues);
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (linkText.equals("Hiyoko Jisho Github")){
-            navigationHelper.clickElement(hiyokoJishoGitHub);
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (linkText.equals("Andrew Tae")){
-            navigationHelper.clickElement(andrewTae);
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        By externalLink = By.xpath("//a[contains(@rel,'noreferrer noopener') and contains(text(),'" + linkText + "')]");
+
+        if (navigationHelper.isElementClickable(externalLink)){
+            navigationHelper.clickElement(externalLink);
         }
         else {
-            System.out.println("Unidentified link passed in. The text " + linkText + " is not a valid link on HiyokoJisho.");
+            navigationHelper.getLogDevice().error("Invalid link text. " + linkText + " is not valid, clickable text on HiyokoJisho.");
         }
     }
 
-    public void clickButton (String button_text){
-        if (button_text.equals("basic search")){
-            navigationHelper.clickElement(baseSearchButton);
-        }
-        else if (button_text.equals("basic clear")){
-            navigationHelper.clickElement(baseClearButton);
-        }
-        else if (button_text.equals("Heisig Add to Built Word")){
+    public void clickHiyokoJishoButton(String button_text){
+        //For the Heisig and Jisho Add/Search buttons, their locators are a bit wonky without also adding in another search parameter,
+        // but we can still handle them here, albeit a bit messily.
+        if (button_text.equals("Heisig Add to Built Word")){
             navigationHelper.clickElement(heisigAdd);
         }
         else if (button_text.equals("Heisig Add to New Built Word")){
@@ -127,29 +99,18 @@ public class hiyokoJisho {
         else if (button_text.equals("Jisho Add to New Built Word")){
             navigationHelper.clickElement(jishoAddNew);
         }
-        else if (button_text.equals("Clear")){
-            navigationHelper.clickElement(baseClearButton);
-        }
-        else if (button_text.equals("Clear Built Word")){
-            navigationHelper.clickElement(clearBuilt);
-        }
-        else if (button_text.equals("Search Built Word")){
-            navigationHelper.clickElement(searchBuilt);
-        }
-        else if (button_text.equals("History")){
-            navigationHelper.clickElement(historyButton);
-        }
-        else if (button_text.equals("expanded History")) {
-            navigationHelper.clickElement(expHistoryButton);
-        }
         else if (button_text.equals("Clear History")){
+            //this looks like a button, but was coded as a link, so we handle it differently
             navigationHelper.clickElement(clearHistoryButton);
         }
-
+        else {//The locator naming is intuitive, the button properly contains the text within the button.
+            By buttonLocator = By.xpath("//button[contains(text(), '" + button_text + "')]");
+            navigationHelper.clickElement(buttonLocator);
+        }
 
         //Sleep so that I can see the results of clicking the button properly.
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -232,7 +193,7 @@ public class hiyokoJisho {
         else return false;
     }
 
-    public boolean buttonIsAbsent(String button_locator) {
+    public boolean builtWordButtonIsAbsent(String button_locator) {
         if (button_locator.equals("Search Built Word")){
             if (navigationHelper.getWebDriver().findElements(clearBuilt).size() < 1){
                 return true;
@@ -290,9 +251,6 @@ public class hiyokoJisho {
                 System.out.print(navigationHelper.getWebDriver().findElement(By.xpath("//div[@class='history-item history-item-button']//p[text()[contains(., '" + historic_result + "')]]")));
             }
         }
-
-
-
 
         return result_exists;
     }

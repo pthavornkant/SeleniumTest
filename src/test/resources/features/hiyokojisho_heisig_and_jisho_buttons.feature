@@ -56,14 +56,14 @@ Feature: Heisig and Jisho Buttons and Word Builder
     Then The built word search bar should display "水"
 
   @hiyoko @noJP @regression
-  Scenario: Verify that the Clear button erases results.
+  Scenario: Verify that the Clear button erases results
     When I click on the "Clear" button
     Then There should be no search results on the page
 
   @hiyoko @noJP @regression
-  Scenario: Verify that the Clear button erases results for built words.
+  Scenario: Verify that the Clear button erases results for built words
     When I click on the "Heisig Add to Built Word" button
-    Then I click on the "Clear Built Word" button
+    Then I click on the "Clear Words" button
     Then The "built word bar" is currently empty
     And The "Search Built Word" button should not appear
     And The "Clear Words" button should not appear

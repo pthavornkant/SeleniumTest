@@ -55,6 +55,13 @@ public class NavigationHelper {
         return element != null;
     }
 
+    public boolean isElementClickable(By locator) {
+        logger.debug("Verifying that " + locator.toString() + " is clickable.");
+        WebElement element = new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(locator));
+
+        return element != null;
+    }
+
     public String getCurrentURL(){
         return driver.getCurrentUrl();
 
