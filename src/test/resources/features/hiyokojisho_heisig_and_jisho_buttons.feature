@@ -12,7 +12,7 @@ Feature: Heisig and Jisho Buttons and Word Builder
     Then "暗" should be added to the built word search bar
     Then I clear the search bar
     Then I enter "water" into the "search bar"
-    Then I click on the "basic search" button
+    Then I click on the " Search" button
     Then I click on the "Heisig Add to Built Word" button
     Then "水" should be added to the built word search bar
     Then The built word search bar should display "暗水"
@@ -23,7 +23,7 @@ Feature: Heisig and Jisho Buttons and Word Builder
     Then "暗" should be added to the built word search bar
     Then I clear the search bar
     Then I enter "water" into the "search bar"
-    Then I click on the "basic search" button
+    Then I click on the " Search" button
     Then I click on the "Heisig Add to New Built Word" button
     Then The built word search bar should display "水"
 
@@ -39,7 +39,7 @@ Feature: Heisig and Jisho Buttons and Word Builder
     Then "闇" should be added to the built word search bar
     Then I clear the search bar
     Then I enter "water" into the "search bar"
-    Then I click on the "basic search" button
+    Then I click on the " Search" button
     Then I click on the "Jisho Add to Built Word" button
     Then "水" should be added to the built word search bar
     Then The built word search bar should display "闇水"
@@ -50,7 +50,7 @@ Feature: Heisig and Jisho Buttons and Word Builder
     Then "闇" should be added to the built word search bar
     Then I clear the search bar
     Then I enter "water" into the "search bar"
-    Then I click on the "basic search" button
+    Then I click on the " Search" button
     Then I click on the "Jisho Add to New Built Word" button
     Then "水" should be added to the built word search bar
     Then The built word search bar should display "水"

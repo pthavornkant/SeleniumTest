@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
         features = "classpath:features"
         ,monochrome = true
         ,glue = {"steps"}
-        ,tags = {"@buttoncheck"}
+        ,tags = {"@hiyoko", "@smoke", "@yesJP"}
         ,format = {"json:target/cucumber.json", "html:target/site/cucumber-pretty"}
 )
 

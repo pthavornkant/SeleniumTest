@@ -8,8 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-
 import java.time.Duration;
 
 
@@ -27,7 +25,7 @@ public class NavigationHelper {
     }
     public Logger getLogDevice() {return this.logger;}
 
-    private static Wait<WebDriver> wait = null;
+    private static Wait <WebDriver> wait = null;
     private static Wait <WebDriver> elementExistsWait = null;
 
     // Default wait time
@@ -44,7 +42,7 @@ public class NavigationHelper {
         System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
         System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
         driver = new FirefoxDriver();
-        logger.info("Starting Firefox Driver");
+        logger.info("Starting Firefox Driver.");
 
         wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(WAIT_TIME))
@@ -78,12 +76,6 @@ public class NavigationHelper {
     public boolean isElementPresent(By locator) {
         logger.debug("Looking for " + locator.toString());
        WebElement element = new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(locator));
-        return element != null;
-    }
-
-    public boolean isElementClickable(By locator) {
-        logger.debug("Verifying that " + locator.toString() + " is clickable.");
-        WebElement element = new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(locator));
         return element != null;
     }
 
