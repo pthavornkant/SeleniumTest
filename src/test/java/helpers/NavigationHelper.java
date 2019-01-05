@@ -1,14 +1,16 @@
 package helpers;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.LoggerNameAwareMessage;
+
+
+import java.time.Duration;
 
 
 //#TODO: There isn't much to modify in this code, but read it over to see what's going on.
@@ -25,12 +27,36 @@ public class NavigationHelper {
     }
     public Logger getLogDevice() {return this.logger;}
 
+    private static Wait<WebDriver> wait = null;
+    private static Wait <WebDriver> elementExistsWait = null;
+
+    // Default wait time
+    private static final int WAIT_TIME = 60;
+
+    // Default poll interval
+    private static final int POLL_INTERVAL = 1;
+
+    // Wait time to check if an element exists
+    private static final int ELEMENT_EXISTS_WAIT_TIME = 5;
+
     public NavigationHelper() {
         System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/geckodriver.exe");
         System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
         System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
         driver = new FirefoxDriver();
         logger.info("Starting Firefox Driver");
+
+        wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(WAIT_TIME))
+                .pollingEvery(Duration.ofSeconds(POLL_INTERVAL))
+                .ignoring(StaleElementReferenceException.class)
+                .ignoring(NoSuchElementException.class);
+
+        elementExistsWait = new FluentWait <>(driver)
+                .withTimeout(Duration.ofSeconds(ELEMENT_EXISTS_WAIT_TIME))
+                .pollingEvery(Duration.ofSeconds(POLL_INTERVAL))
+                .ignoring(StaleElementReferenceException.class)
+                .ignoring(NoSuchElementException.class);
     }
 
     public void goTo(String url) {
@@ -51,7 +77,13 @@ public class NavigationHelper {
 
     public boolean isElementPresent(By locator) {
         logger.debug("Looking for " + locator.toString());
-        WebElement element = new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(locator));
+       WebElement element = new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(locator));
+        return element != null;
+    }
+
+    public boolean isElementClickable(By locator) {
+        logger.debug("Verifying that " + locator.toString() + " is clickable.");
+        WebElement element = new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(locator));
         return element != null;
     }
 
