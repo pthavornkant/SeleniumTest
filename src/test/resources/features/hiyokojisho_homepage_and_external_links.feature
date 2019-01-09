@@ -8,7 +8,7 @@ Feature: Verify text & external links on HiyokoJisho
 
   @hiyoko @noJP @smoke @regression
   Scenario: Verify that the title displays correctly
-    Then I should see that the title says "HiyokoJisho"
+    Then I should see that the title says "Hiyoko Jisho"
 
   @hiyoko @noJP @smoke @regression
   Scenario: Verify that all page text displays properly
@@ -18,7 +18,7 @@ Feature: Verify text & external links on HiyokoJisho
     And I should see "This site uses some heisig json and the Official Unofficial Jisho.org API"
     And I should see "Issues? New Feature Ideas?"
 
-  @hiyoko @noJP @smoke @regression @extlinks
+  @hiyoko @noJP @smoke @regression @extlinks 
   Scenario Outline: Verify that clicking on each external link takes me to the expected external link
     When I click on "<linktext>"
     Then I am on the external page "<URL>"

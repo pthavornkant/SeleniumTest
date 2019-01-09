@@ -126,6 +126,15 @@ public class hiyokoJisho {
 
     }
 
+    public boolean verifyHiyokoJishoTitle(String pageTitle) {
+        boolean expectedTitle = false;
+        if ((pageTitle.toLowerCase()).equals(navigationHelper.getWebDriver().getTitle().toLowerCase().contains(pageTitle.toLowerCase())))
+        {
+            expectedTitle = true;
+        }
+        return expectedTitle;
+    }
+
     public boolean verifyHeisigSearchResults(String language, String textToSearch) {
         if (language.equals("English")) {
             System.out.println("Verifying text: " + textToSearch);

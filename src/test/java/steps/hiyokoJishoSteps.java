@@ -28,9 +28,10 @@ public class hiyokoJishoSteps {
     @After
     public void testShutDown(Scenario scenario) {
         //Shut off the driver, ending tests.
-        System.out.println("Tests shutting down.");
         WebDriver driver = hiyokoJishoWebpage.navigationHelper.getWebDriver();
+        hiyokoJishoWebpage.navigationHelper.getLogDevice().info("Closing web driver.");
         driver.quit();
+        hiyokoJishoWebpage.navigationHelper.getLogDevice().info("Web driver closed.");
     }
 
     @Given("^I am on the home page of \"([^\"]*)\"$")
@@ -51,7 +52,8 @@ public class hiyokoJishoSteps {
 
     @Then("^I should see that the title says \"([^\"]*)\"$")
     public void iShouldSeeThatTheTitleSays(String pageTitle) {
-        hiyokoJishoWebpage.navigationHelper.getLogDevice().debug(hiyokoJishoWebpage.navigationHelper.getWebDriver().getTitle().toLowerCase().contains(pageTitle));
+        boolean isPageTitleCorrect = hiyokoJishoWebpage.verifyHiyokoJishoTitle(pageTitle);
+        assert isPageTitleCorrect;
     }
 
     @And("^I should see \"([^\"]*)\"$")
